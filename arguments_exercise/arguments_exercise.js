@@ -26,11 +26,20 @@ Function.prototype.myBind = function(){
   let outerArgs = Array.from(arguments).slice(1);
 
   return function(){
-    debugger;
     let innerArgs = Array.from(arguments);
     let args = outerArgs.concat(innerArgs);
     that.apply(ctxt,args );
   }
+}
+
+Function.prototype.myBindRest = function(...outerArgs){
+  let that = this;
+  let ctxt = outerArgs[0];
+  outerArgs = outerArgs.slice(1);
+    return function(...innerArgs){
+      let args = outerArgs.concat(innerArgs);
+      that.apply(ctxt, args);
+    }
 }
 
 class Cat {
@@ -58,22 +67,22 @@ markov.says("meow", "Ned");
 // true
 
 // bind time args are "meow" and "Kush", no call time args
-markov.says.myBind(pavlov, "meow", "Kush")();
+markov.says.myBindRest(pavlov, "meow", "Kush")();
 // Pavlov says meow to Kush!
 // true
 
 // no bind time args (other than context), call time args are "meow" and "a tree"
-markov.says.myBind(pavlov)("meow", "a tree");
+markov.says.myBindRest(pavlov)("meow", "a tree");
 // Pavlov says meow to a tree!
 // true
 
 // bind time arg is "meow", call time arg is "Markov"
-markov.says.myBind(pavlov, "meow")("Markov");
+markov.says.myBindRest(pavlov, "meow")("Markov");
 // Pavlov says meow to Markov!
 // true
 
 // no bind time args (other than context), call time args are "meow" and "me"
-const notMarkovSays = markov.says.myBind(pavlov);
+const notMarkovSays = markov.says.myBindRest(pavlov);
 notMarkovSays("meow", "me");
 // Pavlov says meow to me!
 // true
