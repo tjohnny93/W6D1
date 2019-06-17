@@ -1,0 +1,9 @@
+/* PHASE 7: Online */
+
+.online {
+  background: #0c0;
+  width: 100%;
+  display: block;
+  font-weight: 700;
+  color: white;
+}
