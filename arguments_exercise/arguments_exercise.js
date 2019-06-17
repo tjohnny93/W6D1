@@ -6,7 +6,7 @@ function sum(){
   return sum;
 }
 
-sum(2,2,3);
+// sum(2,2,3);
 
 function sumRest(...arguments){
   let sum = 0;
@@ -15,7 +15,8 @@ function sumRest(...arguments){
   });
   return sum;
 }
-console.log(sumRest(2,2,3));
+
+// console.log(sumRest(2,2,3));
 
 
 
@@ -42,47 +43,71 @@ Function.prototype.myBindRest = function(...outerArgs){
     }
 }
 
-class Cat {
-  constructor(name) {
-    this.name = name;
-  }
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
 
-  says(sound, person) {
-    console.log(`${this.name} says ${sound} to ${person}!`);
-    return true;
-  }
+//   says(sound, person) {
+//     console.log(`${this.name} says ${sound} to ${person}!`);
+//     return true;
+//   }
+// }
+
+// class Dog {
+//   constructor(name) {
+//     this.name = name;
+//   }
+// }
+
+// const markov = new Cat("Markov");
+// const pavlov = new Dog("Pavlov");
+
+// markov.says("meow", "Ned");
+// // Markov says meow to Ned!
+// // true
+
+// // bind time args are "meow" and "Kush", no call time args
+// markov.says.myBindRest(pavlov, "meow", "Kush")();
+// // Pavlov says meow to Kush!
+// // true
+
+// // no bind time args (other than context), call time args are "meow" and "a tree"
+// markov.says.myBindRest(pavlov)("meow", "a tree");
+// // Pavlov says meow to a tree!
+// // true
+
+// // bind time arg is "meow", call time arg is "Markov"
+// markov.says.myBindRest(pavlov, "meow")("Markov");
+// // Pavlov says meow to Markov!
+// // true
+
+// // no bind time args (other than context), call time args are "meow" and "me"
+// const notMarkovSays = markov.says.myBindRest(pavlov);
+// notMarkovSays("meow", "me");
+// // Pavlov says meow to me!
+// // true
+
+function curriedSum(numArgs) {
+  numArgs = numArgs;
+  let numbers = [];
+
+  
+  return function _curriedSum(num) {
+    numbers.push(num);
+    numArgs -= 1;
+    if (numArgs === 0) {
+      let sum = 0;
+      numbers.forEach(function(n) {
+        sum += n;
+      });
+      return sum;
+    } else {
+    return _curriedSum;
+    }
+  };
 }
 
-class Dog {
-  constructor(name) {
-    this.name = name;
-  }
-}
+ex = curriedSum(3);
 
-const markov = new Cat("Markov");
-const pavlov = new Dog("Pavlov");
 
-markov.says("meow", "Ned");
-// Markov says meow to Ned!
-// true
-
-// bind time args are "meow" and "Kush", no call time args
-markov.says.myBindRest(pavlov, "meow", "Kush")();
-// Pavlov says meow to Kush!
-// true
-
-// no bind time args (other than context), call time args are "meow" and "a tree"
-markov.says.myBindRest(pavlov)("meow", "a tree");
-// Pavlov says meow to a tree!
-// true
-
-// bind time arg is "meow", call time arg is "Markov"
-markov.says.myBindRest(pavlov, "meow")("Markov");
-// Pavlov says meow to Markov!
-// true
-
-// no bind time args (other than context), call time args are "meow" and "me"
-const notMarkovSays = markov.says.myBindRest(pavlov);
-notMarkovSays("meow", "me");
-// Pavlov says meow to me!
-// true
