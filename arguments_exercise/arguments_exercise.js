@@ -121,8 +121,7 @@ Function.prototype.curry = function(numArgs) {
     args.push(argu);
     numArgs -= 1;
     if (numArgs === 0) {
-      debugger;
-      return that.apply(any, args);
+      return that.apply(this, args);
     } else {
       return dummy;
     }
@@ -133,4 +132,20 @@ function sumThree(num1, num2, num3) {
   return num1 + num2 + num3;
 }
 
-f1 = sumThree.curry(4);
+Function.prototype.curryRest = function (numArgs) {
+  numArgs = numArgs;
+  let that = this;
+  let args = [];
+
+  return function dummy(argu) {
+    args.push(argu);
+    numArgs -= 1;
+    if (numArgs === 0) {
+      return that.call("any", ...args);
+    } else {
+      return dummy;
+    }
+  };
+};
+
+f1 = sumThree.curryRest(3);
