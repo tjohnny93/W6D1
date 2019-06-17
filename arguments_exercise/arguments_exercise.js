@@ -89,6 +89,7 @@ Function.prototype.myBindRest = function(...outerArgs){
 // // true
 
 function curriedSum(numArgs) {
+  
   numArgs = numArgs;
   let numbers = [];
 
@@ -108,6 +109,28 @@ function curriedSum(numArgs) {
   };
 }
 
-ex = curriedSum(3);
+// ex = curriedSum(3);
 
 
+Function.prototype.curry = function(numArgs) {
+  numArgs = numArgs;
+  let that = this;
+  let args = [];
+
+  return function dummy(argu) {
+    args.push(argu);
+    numArgs -= 1;
+    if (numArgs === 0) {
+      debugger;
+      return that.apply(any, args);
+    } else {
+      return dummy;
+    }
+  };
+};
+
+function sumThree(num1, num2, num3) {
+  return num1 + num2 + num3;
+}
+
+f1 = sumThree.curry(4);
